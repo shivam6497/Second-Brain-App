@@ -1,5 +1,3 @@
 node_modules
 dist
-Backend/database/db.ts
-Backend/config.ts
 .env
