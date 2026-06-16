@@ -1,5 +1,4 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-let num = 8;
-console.log(num);
+console.log(8);
 //# sourceMappingURL=index.js.map
