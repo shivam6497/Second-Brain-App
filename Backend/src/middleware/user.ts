@@ -16,7 +16,7 @@ export const userMiddleware = (
       });
     }
 
-    const decoded = jwt.verify(token, JWT_SECRET);
+    const decoded = jwt.verify(token, JWT_SECRET || "");
     req.userId = decoded.userId;
     next();
   } catch (error) {
