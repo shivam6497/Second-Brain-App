@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
-import { JWT_SECRET } from "../config";
+import type { JwtPayload } from "jsonwebtoken";
+import { JWT_SECRET } from "../config.js";
 import type { NextFunction, Request, Response } from "express";
 
 export const userMiddleware = (
@@ -8,7 +9,15 @@ export const userMiddleware = (
   next: NextFunction,
 ) => {
   try {
-    const token = req.headers.authorization;
+    const authHeader = req.headers.authorization;
+
+    if (!authHeader) {
+      return res.status(401).json({
+        message: "Unauthorized",
+      });
+    }
+
+    const token = authHeader.split(" ")[1]; // Extract token after "Bearer "
 
     if (!token) {
       return res.status(401).json({
@@ -16,7 +25,8 @@ export const userMiddleware = (
       });
     }
 
-    const decoded = jwt.verify(token, JWT_SECRET || "");
+    const decoded = jwt.verify(token, JWT_SECRET || "") as JwtPayload;
+    // @ts-ignore
     req.userId = decoded.userId;
     next();
   } catch (error) {
